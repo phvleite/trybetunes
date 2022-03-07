@@ -12,7 +12,6 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <p>TrybeTunes</p>
         <Switch>
           <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites" component={ Favorites } />
