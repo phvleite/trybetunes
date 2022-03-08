@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Header from '../component/Header';
 import Loading from '../component/Loading';
 import getMusics from '../services/musicsAPI';
@@ -13,7 +14,7 @@ class Album extends Component {
     this.state = {
       musicList: [],
       load: true,
-      // favoritesList: [],
+      favoritesList: [],
     };
   }
 
@@ -25,10 +26,24 @@ class Album extends Component {
       musicList,
       load: false,
     });
+    this.updateFavoriteSongs();
+  }
+
+  updateFavoriteSongs = async () => {
+    const favoritesSongs = await getFavoriteSongs();
+    this.setState({
+      favoritesList: favoritesSongs,
+    });
+  }
+
+  toggleLoad = () => {
+    this.setState((prevState) => ({
+      load: !prevState.load,
+    }));
   }
 
   render() {
-    const { musicList, load } = this.state;
+    const { musicList, load, favoritesList } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -38,10 +53,14 @@ class Album extends Component {
             <span data-testid="album-name">{musicList[0].collectionName}</span>
             <span data-testid="artist-name">{musicList[0].artistName}</span>
             {musicList.map((track, index) => (
-              index > 0 && <MusicCard
-                track={ track }
-                key={ track.trackId }
-              />
+              index > 0
+               && <MusicCard
+                 track={ track }
+                 key={ track.trackId }
+                 favoritesList={ favoritesList }
+                 updateFavoriteSongs={ this.updateFavoriteSongs }
+                 toggleLoad={ this.toggleLoad }
+               />
             ))}
           </div>
         )}
