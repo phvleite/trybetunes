@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 // (https://github.com/tryber/sd-019-a-project-trybetunes/blob/lua-octaviano-trybetunes/src/components/AlbumCard.js)
 class AlbumCard extends Component {
   render() {
+    const FINAL = 10;
     const { album } = this.props;
     const {
       artistName,
@@ -20,7 +21,7 @@ class AlbumCard extends Component {
         <img src={ artworkUrl100 } alt={ collectionName } />
         <span className="albumTitle">{collectionName}</span>
         <span className="artistName">{artistName}</span>
-        <span className="release">{releaseDate}</span>
+        <span className="release">{releaseDate.slice(0, FINAL)}</span>
         <span className="track-count">{trackCount}</span>
         <Link
           to={ `/album/${collectionId}` }
